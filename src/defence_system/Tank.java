@@ -20,7 +20,7 @@ public class Tank extends javax.swing.JFrame implements Defenceobserver{
     }
 
     Tank(Defenceobservable ob) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("test"); 
     }
 
     /**
