@@ -1,22 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package defence_system;
+
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Nishan Sameera
  */
-public class DefenceMainControl extends javax.swing.JFrame {
+public class DefenceMainControl extends javax.swing.JFrame implements Defenceobserver{
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DefenceMainControl.class.getName());
-
-    /**
-     * Creates new form DefenceMainControl
-     */
-    public DefenceMainControl() {
+    private Defenceobservable defenceobservable;
+    
+    public DefenceMainControl(Defenceobservable defenceobservable) {
         initComponents();
+        this.defenceobservable=defenceobservable;
+        jSlider1.setValue(0);
     }
 
     /**
@@ -50,6 +48,16 @@ public class DefenceMainControl extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence", "Helicopter", "Tank", "Submarine" }));
 
         jCheckBox1.setText("Area Clear");
+        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox1StateChanged(evt);
+            }
+        });
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -58,12 +66,22 @@ public class DefenceMainControl extends javax.swing.JFrame {
         jCheckBox2.setText("Send Private");
 
         jButton2.setText("Send");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jSlider1.setForeground(new java.awt.Color(102, 102, 102));
         jSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
         jSlider1.setPaintLabels(true);
         jSlider1.setToolTipText("0");
         jSlider1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 0));
         jPanel1.setForeground(new java.awt.Color(0, 153, 51));
@@ -154,30 +172,34 @@ public class DefenceMainControl extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        defenceobservable.setDefenceLevel(jSlider1.getValue());
+    }//GEN-LAST:event_jSlider1StateChanged
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DefenceMainControl().setVisible(true));
-    }
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+       boolean isChecked = jCheckBox1.isSelected();
+       defenceobservable.setAreaclear(isChecked);
+    }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (!jTextField1.getText().equals("")) {
+            if (jCheckBox2.isSelected()) {
+                defenceobservable.privatemessage("Main Controller :"+jTextField1.getText());
+            }else {
+                defenceobservable.sendMessagetotal("Main Controller :"+jTextField1.getText());
+                jTextField1.setText("");
+            }
+        }
+        if (jComboBox1.getSelectedIndex()==1) {
+            defenceobservable.privatemessage(jTextField1.getText());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -193,4 +215,24 @@ public class DefenceMainControl extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(int defenceLevel, boolean areaclear) {
+       
+    }
+
+    @Override
+    public void reciveMessage(String message) {
+       
+    }
+
+    @Override
+    public void unitMessage(String message) {
+       jTextArea1.append(message+"\n");
+    }
+
+    @Override
+    public void priMessage(String message) {
+      
+    }
 }
