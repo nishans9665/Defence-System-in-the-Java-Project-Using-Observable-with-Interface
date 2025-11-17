@@ -21,5 +21,12 @@ public class Defence_System {
         ob.addDefenceobsever((Defenceobserver) tank);
         tank.setVisible(true);
         
+        Helicopter helicop = new Helicopter(ob);
+        ob.addDefenceobsever((Defenceobserver) helicop);
+        helicop.setVisible(true);
+        
+        Submarine submarine = new Submarine(ob);
+        ob.addDefenceobsever((Defenceobserver) submarine);
+        submarine.setVisible(true);
     } 
 }

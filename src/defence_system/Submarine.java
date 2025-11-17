@@ -4,6 +4,8 @@
  */
 package defence_system;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nishan Sameera
@@ -15,7 +17,11 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
     
     public Submarine(Defenceobservable defenceobservable) {
         initComponents();
-        
+        this.defenceobservable=defenceobservable;
+        btn_shoot.setEnabled(false);
+        btn_sensor.setEnabled(false);
+        btn_towha.setEnabled(false);
+        btn_trident.setEnabled(false);
     }
 
     /**
@@ -31,10 +37,10 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_shoot = new javax.swing.JButton();
+        btn_sensor = new javax.swing.JButton();
+        btn_towha = new javax.swing.JButton();
+        btn_trident = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
@@ -71,21 +77,36 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
 
         jLabel2.setText("Area Not Cleared");
 
-        jButton1.setText("Shoot");
+        btn_shoot.setText("Shoot");
 
-        jButton2.setText("Missile Opertion");
+        btn_sensor.setText("Sonar operation");
 
-        jButton3.setText("Redar Operation");
+        btn_towha.setText("Towah missile");
 
-        jButton4.setText("Rotate Shooting");
+        btn_trident.setText("Trident-2 Missile");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton5.setText("Send");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Position");
+        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox1StateChanged(evt);
+            }
+        });
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,15 +118,15 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3))
+                            .addComponent(btn_shoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_towha))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
-                                .addComponent(jButton2))
+                                .addComponent(btn_sensor))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4)
+                                .addComponent(btn_trident)
                                 .addGap(26, 26, 26)
                                 .addComponent(jCheckBox1))))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -123,12 +144,12 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btn_shoot)
+                    .addComponent(btn_sensor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
+                    .addComponent(btn_towha)
+                    .addComponent(btn_trident)
                     .addComponent(jCheckBox1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,11 +176,39 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+        boolean Checked=jCheckBox1.isSelected();
+        boolean enableshoot=(lastDefenceLevel > 20)&& Checked;
+        btn_shoot.setEnabled(enableshoot);
+        
+        boolean enablesonar=(lastDefenceLevel > 40)&& Checked;
+        btn_sensor.setEnabled(enablesonar);
+        
+        boolean enblehawak=(lastDefenceLevel > 60)&& Checked;
+        btn_towha.setEnabled(enblehawak);
+        
+        boolean enabletrident=(lastDefenceLevel > 80)&& Checked;
+        btn_trident.setEnabled(enabletrident);
+    }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (!jTextField1.getText().equals("")) {
+           defenceobservable.sendunimessage("submarine - "+jTextField1.getText()+"\n");
+           jTextField1.setText("");
+        }else{
+             JOptionPane.showMessageDialog(null, "input Your Message", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btn_sensor;
+    private javax.swing.JButton btn_shoot;
+    private javax.swing.JButton btn_towha;
+    private javax.swing.JButton btn_trident;
     private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
@@ -173,21 +222,38 @@ public class Submarine extends javax.swing.JFrame implements Defenceobserver{
 
     @Override
     public void update(int defenceLevel, boolean areaclear) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (areaclear) {
+            jLabel2.setText("Area is Clear");
+        }else {
+            jLabel2.setText("Area is Not Clear");
+        }
+        boolean enableshoot=(defenceLevel>20)&& jCheckBox1.isSelected();
+         btn_shoot.setEnabled(enableshoot);
+         
+        boolean enablesonar=(defenceLevel>40)&& jCheckBox1.isSelected();
+         btn_sensor.setEnabled(enablesonar);
+         
+        boolean enablehawk=(defenceLevel>60)&& jCheckBox1.isSelected();
+         btn_towha.setEnabled(enablehawk);
+         
+        boolean enabletrident=(defenceLevel>80)&& jCheckBox1.isSelected();
+         btn_trident.setEnabled(enabletrident);
     }
 
     @Override
     public void reciveMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        jTextArea1.append(message + "\n");
     }
 
     @Override
     public void unitMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        jTextArea1.append(message + "\n");
     }
 
     @Override
     public void priMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (jCheckBox1.isSelected()) {
+          jTextArea1.append(message + "\n");   
+        }
     }
 }
