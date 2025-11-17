@@ -4,6 +4,8 @@
  */
 package defence_system;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nishan Sameera
@@ -19,6 +21,8 @@ public class Helicopter extends javax.swing.JFrame implements Defenceobserver{
         initComponents();
         btn_shoot.setEnabled(false);
         btn_leser.setEnabled(false);
+        btn_missile.setEnabled(false);
+        this.defenceobservable=defenceobservable;
     }
 
     /**
@@ -85,6 +89,11 @@ public class Helicopter extends javax.swing.JFrame implements Defenceobserver{
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton4.setText("Send");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Position");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -163,15 +172,24 @@ public class Helicopter extends javax.swing.JFrame implements Defenceobserver{
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         boolean checked = jCheckBox1.isSelected();
-        boolean enableShoot = (lastDefenceLevel > 20) && checked;
+        boolean enableShoot = (lastDefenceLevel > 30) && checked;
         btn_shoot.setEnabled(enableShoot);
 
-        boolean enablemissile = (lastDefenceLevel > 40) && checked;
+        boolean enablemissile = (lastDefenceLevel > 60) && checked;
         btn_missile.setEnabled(enablemissile);
 
-        boolean enablereder = (lastDefenceLevel > 60) && checked;
+        boolean enablereder = (lastDefenceLevel > 90) && checked;
         btn_leser.setEnabled(enablereder);
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (!jTextField1.getText().equals("")) {
+            defenceobservable.sendunimessage( "Helicopter - "+jTextField1.getText()+"\n");
+            jTextField1.setText("");
+        }else {
+            JOptionPane.showMessageDialog(null, "input Your Message", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -191,21 +209,35 @@ public class Helicopter extends javax.swing.JFrame implements Defenceobserver{
 
     @Override
     public void update(int defenceLevel, boolean areaclear) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (areaclear) {
+            jLabel2.setText("Area Is Cleared");  
+        }else {
+            jLabel2.setText("Area is not Clear");
+        }
+        boolean enbleshoot = (defenceLevel > 30) && jCheckBox1.isSelected();
+        btn_shoot.setEnabled(enbleshoot);
+        
+        boolean enablemissile = (defenceLevel > 60) && jCheckBox1.isSelected();
+        btn_missile.setEnabled(enbleshoot);
+        
+        boolean enblelaser = (defenceLevel > 90) && jCheckBox1.isSelected();
+        btn_leser.setEnabled(enbleshoot);
     }
 
     @Override
     public void reciveMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       jTextArea1.append(message + "\n");
     }
 
     @Override
     public void unitMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       //jTextArea1.append(message + "\n"); 
     }
 
     @Override
     public void priMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (jCheckBox1.isSelected()) {
+            jTextArea1.append(message + "\n");
+        }
     }
 }

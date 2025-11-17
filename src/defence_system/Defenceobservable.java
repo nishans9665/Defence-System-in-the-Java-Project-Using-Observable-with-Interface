@@ -36,23 +36,27 @@ public class Defenceobservable {
        }
     }
 
-    void sendunimessage(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    void sendunimessage(String message) {
+      for(Defenceobserver obsever:observerList){
+           obsever.reciveMessage(message);
+       }
     }
 
-    void setAreaclear(boolean check) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    void setAreaclear(boolean clear) {
+       this.areaclear = clear;
+       notifyObserver();
     }
 
-    void privatemessage(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    void privatemessage(String message) {
+       for(Defenceobserver observer:observerList){
+           observer.priMessage(message);
+       }
     }
 
-    void sendMessagetotal(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    void sendMessagetotal(String message) {
+        for(Defenceobserver observer:observerList){
+            observer.unitMessage(message);
+        }
     }
-    
-    
-    
     
 }

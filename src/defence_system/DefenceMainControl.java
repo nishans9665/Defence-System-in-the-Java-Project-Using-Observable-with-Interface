@@ -1,4 +1,3 @@
-
 package defence_system;
 
 import javax.swing.JOptionPane;
@@ -7,13 +6,13 @@ import javax.swing.JOptionPane;
  *
  * @author Nishan Sameera
  */
-public class DefenceMainControl extends javax.swing.JFrame implements Defenceobserver{
-    
+public class DefenceMainControl extends javax.swing.JFrame implements Defenceobserver {
+
     private Defenceobservable defenceobservable;
-    
+
     public DefenceMainControl(Defenceobservable defenceobservable) {
         initComponents();
-        this.defenceobservable=defenceobservable;
+        this.defenceobservable = defenceobservable;
         jSlider1.setValue(0);
     }
 
@@ -34,7 +33,7 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
         jTextArea1 = new javax.swing.JTextArea();
         jCheckBox2 = new javax.swing.JCheckBox();
         jTextField1 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        sendall = new javax.swing.JButton();
         jSlider1 = new javax.swing.JSlider();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -46,6 +45,11 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence", "Helicopter", "Tank", "Submarine" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Area Clear");
         jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -65,10 +69,10 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
 
         jCheckBox2.setText("Send Private");
 
-        jButton2.setText("Send");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        sendall.setText("Send");
+        sendall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                sendallActionPerformed(evt);
             }
         });
 
@@ -130,7 +134,7 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
                                     .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jScrollPane1))
-                            .addComponent(jButton2))
+                            .addComponent(sendall))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -154,7 +158,7 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)))
-                .addComponent(jButton2)
+                .addComponent(sendall)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -177,33 +181,53 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
     }//GEN-LAST:event_jSlider1StateChanged
 
     private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
-       boolean isChecked = jCheckBox1.isSelected();
-       defenceobservable.setAreaclear(isChecked);
+        boolean isChecked = jCheckBox1.isSelected();
+        defenceobservable.setAreaclear(isChecked);
     }//GEN-LAST:event_jCheckBox1StateChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!jTextField1.getText().equals("")) {
-            if (jCheckBox2.isSelected()) {
-                defenceobservable.privatemessage("Main Controller :"+jTextField1.getText());
-            }else {
-                defenceobservable.sendMessagetotal("Main Controller :"+jTextField1.getText());
-                jTextField1.setText("");
-            }
+    private void sendallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendallActionPerformed
+        String msg = jTextField1.getText().trim();
+        if (msg.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"Input your message","Error",JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        if (jComboBox1.getSelectedIndex()==1) {
-            defenceobservable.privatemessage(jTextField1.getText());
+
+        if (jCheckBox2.isSelected()) {
+            defenceobservable.privatemessage("Main Controller (pri): " + msg);
+            jTextField1.setText("");
+            return; 
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+        defenceobservable.sendMessagetotal("Main Controller: " + msg);
+        jTextField1.setText("");
+        
+         switch (jComboBox1.getSelectedIndex()) {
+            case 2:
+                defenceobservable.privatemessage(jTextField1.getText());
+                break;
+            case 3:
+                defenceobservable.privatemessage(jTextField1.getText());
+                break;
+            case 4:
+                defenceobservable.privatemessage(jTextField1.getText());
+                break;
+            default:
+                break;
+        }
+
+    }//GEN-LAST:event_sendallActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
- 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -214,25 +238,28 @@ public class DefenceMainControl extends javax.swing.JFrame implements Defenceobs
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton sendall;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void update(int defenceLevel, boolean areaclear) {
-       
+
     }
 
     @Override
     public void reciveMessage(String message) {
-       
+
     }
 
     @Override
     public void unitMessage(String message) {
-       jTextArea1.append(message+"\n");
+        jTextArea1.append(message + "\n");
     }
 
     @Override
     public void priMessage(String message) {
-      
+        if (jCheckBox1.isSelected()) {
+            jTextArea1.append(message + "\n");
+        }
     }
 }
